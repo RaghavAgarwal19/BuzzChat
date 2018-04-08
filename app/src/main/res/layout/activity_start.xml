@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="157dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="@string/already_have_acount"
+        android:text="@string/already_have_account"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>
