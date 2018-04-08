@@ -1,8 +1,11 @@
 package com.example.buzzchat;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView mDisplayImage;
     private TextView mName;
     private TextView mStatus;
+    private Button mStatusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,8 @@ public class SettingsActivity extends AppCompatActivity {
         mDisplayImage = (CircleImageView) findViewById(R.id.settings_image);
         mName = (TextView) findViewById(R.id.settings_dislay_name);
         mStatus = (TextView) findViewById(R.id.settings_status);
+
+        mStatusButton = (Button) findViewById(R.id.settings_status_button);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String currentUid = mCurrentUser.getUid();
@@ -57,6 +63,15 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        mStatusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent statusIntent = new Intent(SettingsActivity.this, StatusActivity.class);
+                statusIntent.putExtra("status", mStatus.getText().toString());
+                startActivity(statusIntent);
             }
         });
 

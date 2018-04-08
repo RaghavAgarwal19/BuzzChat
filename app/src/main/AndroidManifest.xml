@@ -32,7 +32,9 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".StatusActivity"
+            android:parentActivityName=".SettingsActivity" />
     </application>
 
 </manifest>
