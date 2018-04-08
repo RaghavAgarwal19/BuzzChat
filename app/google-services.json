@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "431769170002",
+    "firebase_url": "https://buzzchat-90e67.firebaseio.com",
+    "project_id": "buzzchat-90e67",
+    "storage_bucket": "buzzchat-90e67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431769170002:android:03c454426ae34e99",
+        "android_client_info": {
+          "package_name": "com.example.buzzchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431769170002-q85mqq664nfubjhbl82fvn66du3ofslv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.buzzchat",
+            "certificate_hash": "9e4adfcc0e5f53241ca96745b86b2c8a1675d4c7"
+          }
+        },
+        {
+          "client_id": "431769170002-5dd0v9m11g1qk57elgdpgukej3dc847j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm73WqwvL7nFGYFRODXMkk35Gz6h0gKLY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431769170002-5dd0v9m11g1qk57elgdpgukej3dc847j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

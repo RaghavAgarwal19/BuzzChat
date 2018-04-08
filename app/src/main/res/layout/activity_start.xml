@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.buzzchat.StartActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif"
+        android:text="@string/welcome_to_buzzchat"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/start_reg_button"
+        android:layout_width="211dp"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="69dp"
+        android:text="@string/need_a_new_account"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/start_login_btn"
+        android:layout_width="209dp"
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="157dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/already_have_acount"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>
