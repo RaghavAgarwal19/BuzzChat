@@ -70,7 +70,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent statusIntent = new Intent(SettingsActivity.this, StatusActivity.class);
-                statusIntent.putExtra("status", mStatus.getText().toString());
                 startActivity(statusIntent);
             }
         });
