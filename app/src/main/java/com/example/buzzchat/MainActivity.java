@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                                         sendToStart();
             case R.id.main_settings_btn:Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                                         startActivity(settingsIntent);
+            case R.id.main_all_btn:Intent usersIntent = new Intent(MainActivity.this, UsersActivity.class);
+                                    startActivity(usersIntent);
         }
 
         return true;
