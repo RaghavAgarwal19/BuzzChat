@@ -20,9 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout mTabLayout;
 
-    public MainActivity() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +70,13 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.main_log_out_btn:FirebaseAuth.getInstance().signOut();
                                         sendToStart();
+                                        break;
             case R.id.main_settings_btn:Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                                         startActivity(settingsIntent);
+                                        break;
             case R.id.main_all_btn:Intent usersIntent = new Intent(MainActivity.this, UsersActivity.class);
                                     startActivity(usersIntent);
+                                    break;
         }
 
         return true;

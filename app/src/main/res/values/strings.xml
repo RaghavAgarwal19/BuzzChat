@@ -21,6 +21,8 @@
     <string name="change_image">Change Image</string>
     <string name="already_have_account">Already Have account</string>
     <string name="create_a_new_account">Create a new Account</string>
-
+    <string name="chat_fragment">Chats Fragment</string>
+    <string name="friends_fragment">Friends Fragment</string>
+    <string name="requests_fragment">Requests Fragment</string>
 
 </resources>

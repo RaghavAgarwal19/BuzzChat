@@ -102,11 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
                 startActivityForResult(Intent.createChooser(galleryIntent, "SELECT IMAGE"), GALLERY_PICK);
-//
-//                start picker to get image for cropping and then use the image in cropping activity
-//                CropImage.activity()
-//                        .setGuidelines(CropImageView.Guidelines.ON)
-//                        .start(SettingsActivity.this);
+
             }
         });
     }
