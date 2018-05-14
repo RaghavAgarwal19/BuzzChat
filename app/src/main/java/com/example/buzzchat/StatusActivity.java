@@ -26,7 +26,6 @@ public class StatusActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private TextInputLayout mStatus;
-//    private TextInputEditText mStatusText;
     private Button mSaveButton;
     private ProgressBar mProgressBar;
 
@@ -78,6 +77,7 @@ public class StatusActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
                             mProgressBar.setVisibility(View.GONE);
+                            startActivity(new Intent(StatusActivity.this, SettingsActivity.class));
                         }else{
                             Toast.makeText(StatusActivity.this, "Error Occured", Toast.LENGTH_SHORT);
                         }

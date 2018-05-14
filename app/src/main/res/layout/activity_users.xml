@@ -11,8 +11,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/users_list"
         android:layout_width="match_parent"
-        android:layout_height="512dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/users_appbar" />
 
 </RelativeLayout>

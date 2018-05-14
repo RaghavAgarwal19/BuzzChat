@@ -1,6 +1,7 @@
 package com.example.buzzchat;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -24,10 +25,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -61,20 +71,39 @@ public class SettingsActivity extends AppCompatActivity {
         mImageStorage = FirebaseStorage.getInstance().getReference();
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String currentUid = mCurrentUser.getUid();
+
         mUserDatabase = FirebaseDatabase.getInstance().getReference("Users").child(currentUid);
+        mUserDatabase.keepSynced(true);
 
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String name = dataSnapshot.child("name").getValue().toString();
-                String image = dataSnapshot.child("image").getValue().toString();
+                final String image = dataSnapshot.child("image").getValue().toString();
                 String status = dataSnapshot.child("status").getValue().toString();
                 String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 mName.setText(name);
                 mStatus.setText(status);
-                Picasso.get().load(image).into(mDisplayImage);
+                if (!image.equals("default")) {
+//                    Picasso.get().load(image).placeholder(R.drawable.default_profile).into(mDisplayImage);
+
+                    Picasso.get().load(image).networkPolicy(NetworkPolicy.OFFLINE)
+                            .placeholder(R.drawable.default_profile).into(mDisplayImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Picasso.get().load(image).placeholder(R.drawable.default_profile).into(mDisplayImage);
+                        }
+                    });
+
+                }
+
             }
 
             @Override
@@ -125,24 +154,67 @@ public class SettingsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 mProgressBar.setVisibility(View.VISIBLE);
                 Uri resultUri = result.getUri();
+
+                File thumbFilePath = new File(resultUri.getPath());
                 String currentUid = mCurrentUser.getUid();
+
+                try {
+                    Bitmap thumbBitmap = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(75)
+                            .compressToBitmap(thumbFilePath);
+
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                thumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                final byte[] thumbByte = baos.toByteArray();
+
                 StorageReference filePath = mImageStorage.child("profile_images").child(currentUid + ".jpg");
+                final StorageReference thumbFile = mImageStorage.child("profile_images").child("thumbs").child(currentUid + ".jpg");
+
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()){
-                            String downloadUrl = task.getResult().getDownloadUrl().toString();
-                            mUserDatabase.child("image").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            final String downloadUrl = task.getResult().getDownloadUrl().toString();
+
+                            UploadTask uploadTask =  thumbFile.putBytes(thumbByte);
+                            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()){
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task) {
+
+                                    String thumbDownloadUrl = thumb_task.getResult().getDownloadUrl().toString();
+                                    if (thumb_task.isSuccessful()){
+
+                                        Map updateHashMap = new HashMap();
+                                        updateHashMap.put("image", downloadUrl);
+                                        updateHashMap.put("thumb_image", thumbDownloadUrl);
+
+                                        mUserDatabase.updateChildren(updateHashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    mProgressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
+
+                                    }else{
+                                        Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                         mProgressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
+                        }else {
+                            Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     }
                 });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
